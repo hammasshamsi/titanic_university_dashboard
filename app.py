@@ -42,7 +42,11 @@ col1, col2, col3, col4 = st.columns(4)
 col1.metric("Total Passengers", len(filtered_df))
 col2.metric("Survival Rate", f"{filtered_df['survived'].mean()*100:.1f}%")
 col3.metric("Avg Age", f"{filtered_df['age'].mean():.1f} yrs")
-col4.metric("Female %", f"{(filtered_df['sex'].value_counts(normalize=True)['female']*100):.1f}%")
+
+# Safe female %
+sex_counts = filtered_df['sex'].value_counts(normalize=True)
+female_pct = sex_counts.get('female', 0) * 100
+col4.metric("Female %", f"{female_pct:.1f}%")
 
 # -------------------------------
 # Visualizations
